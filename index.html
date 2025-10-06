@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drowsiness Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function toggleDetection() {
+            fetch('/toggle_detection', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                const btn = document.getElementById("toggle-btn");
+                if (data.status === "running") {
+                    btn.innerText = "Stop Detection";
+                    btn.style.backgroundColor = "red";
+                } else {
+                    btn.innerText = "Start Detection";
+                    btn.style.backgroundColor = "green";
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Driver Drowsiness Detection</h1>
+        <div class="video-container">
+            <img src="{{ url_for('video_feed') }}" id="video-feed">
+        </div>
+        <button id="toggle-btn" onclick="toggleDetection()">Start Detection</button>
+    </div>
+</body>
+</html>
